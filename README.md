@@ -23,7 +23,7 @@ This project implements a RESTful API service using Spring Boot for managing the
 1. Clone this repository.
 2. Install the required dependencies (Maven or Gradle).
 3. Configure your MySQL connection details in `application.properties`.
-4. Run the application using `mvn spring-boot:run` (Maven) or similar command (Gradle).
+4. Run the application using `mvn spring-boot:run` (Maven).
 
 **Run in postman**
 
