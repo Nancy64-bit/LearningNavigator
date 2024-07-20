@@ -1,5 +1,6 @@
 package com.crio.learning_navigator.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,7 +10,6 @@ import java.util.List;
 @Table(name = "subjects")
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
 public class Subject {
 
@@ -21,6 +21,6 @@ public class Subject {
     private String name;
 
     @ManyToMany(mappedBy = "enrolledSubjects")
-    @ToString.Exclude
+    @JsonIgnore
     private List<Student> registeredStudents;
 }

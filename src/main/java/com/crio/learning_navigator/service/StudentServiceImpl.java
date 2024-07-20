@@ -1,6 +1,7 @@
 package com.crio.learning_navigator.service;
 
 
+import com.crio.learning_navigator.exception.DataAlreadyExistException;
 import com.crio.learning_navigator.model.*;
 import com.crio.learning_navigator.repository.*;
 import com.crio.learning_navigator.exception.ResourceNotFoundException;
@@ -65,6 +66,14 @@ public class StudentServiceImpl implements StudentService {
     @Transactional
     public Student enrollStudentInSubject(Long registrationId, Long subjectId) {
         Student student = getStudentById(registrationId);
+
+        boolean subjectFound = student.getEnrolledSubjects().stream()
+                .anyMatch(subject -> subjectId.equals(subject.getSubjectId()));
+
+        if (subjectFound) {
+            throw new DataAlreadyExistException("Subject with ID " + subjectId + " is already enrolled.");
+        }
+
         Subject subject = subjectRepository.findById(subjectId)
                 .orElseThrow(() -> new ResourceNotFoundException("Subject not found with id: " + subjectId));
 
@@ -76,6 +85,14 @@ public class StudentServiceImpl implements StudentService {
     @Transactional
     public Student registerStudentForExam(Long registrationId, Long examId) {
         Student student = getStudentById(registrationId);
+
+        boolean examFound = student.getRegisteredExams().stream()
+                .anyMatch(exam -> examId.equals(exam.getExamId()));
+
+        if (examFound) {
+            throw new DataAlreadyExistException("Exam with ID " + examId + " is already registered.");
+        }
+
         Exam exam = examRepository.findById(examId)
                 .orElseThrow(() -> new ResourceNotFoundException("Exam not found with id: " + examId));
 
